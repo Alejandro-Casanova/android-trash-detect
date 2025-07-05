@@ -62,63 +62,17 @@ class ObjectDetectorHelper(
 
         try {
 
-            if (currentModel == MODEL_YOLO) {
+            objectDetector = YoloDetector(
 
-                objectDetector = YoloDetector(
+                threshold,
+                0.3f,
+                numThreads,
+                maxResults,
+                currentDelegate,
+                currentModel,
+                context,
 
-                    threshold,
-                    0.3f,
-                    numThreads,
-                    maxResults,
-                    currentDelegate,
-                    currentModel,
-                    context,
-
-                )
-
-            }
-            else {
-
-                // Create the base options for the detector using specifies max results and score threshold
-                val optionsBuilder =
-                    ObjectDetectorOptions.builder()
-                        .setScoreThreshold(threshold)
-                        .setMaxResults(maxResults)
-
-                // Set general detection options, including number of used threads
-                val baseOptionsBuilder = BaseOptions.builder().setNumThreads(numThreads)
-
-                // Use the specified hardware for running the model. Default to CPU
-                when (currentDelegate) {
-                    DELEGATE_CPU -> {
-                        // Default
-                    }
-                    DELEGATE_GPU -> {
-//                        if (CompatibilityList().isDelegateSupportedOnThisDevice) {
-//                            baseOptionsBuilder.useGpu()
-//                        } else {
-//                            objectDetectorListener?.onError("GPU is not supported on this device")
-//                        }
-                        // for some reason CompatibilityList().isDelegateSupportedOnThisDevice
-                        // returns False in my Motorola Edge 30 Ultra, but GPU works :/
-                        baseOptionsBuilder.useGpu()
-                    }
-                    DELEGATE_NNAPI -> {
-                        baseOptionsBuilder.useNnapi()
-                    }
-                }
-
-                optionsBuilder.setBaseOptions(baseOptionsBuilder.build())
-                val options = optionsBuilder.build()
-
-                objectDetector = TaskVisionDetector(
-                    options,
-                    currentModel,
-                    context,
-
-                )
-
-            }
+            )
 
 
         }
@@ -182,10 +136,8 @@ class ObjectDetectorHelper(
         const val DELEGATE_CPU = 0
         const val DELEGATE_GPU = 1
         const val DELEGATE_NNAPI = 2
-        const val MODEL_MOBILENETV1 = 0
-        const val MODEL_EFFICIENTDETV0 = 1
-        const val MODEL_EFFICIENTDETV1 = 2
-        const val MODEL_EFFICIENTDETV2 = 3
-        const val MODEL_YOLO = 4
+        const val MODEL_YOLO_TRASH_M = 0
+        const val MODEL_YOLO_TRASH_S = 1
+        const val MODEL_YOLO_TRASH_N = 2
     }
 }

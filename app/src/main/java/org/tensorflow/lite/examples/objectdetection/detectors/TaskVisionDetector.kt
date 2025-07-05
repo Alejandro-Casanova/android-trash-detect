@@ -1,10 +1,7 @@
 package org.tensorflow.lite.examples.objectdetection.detectors
 
 import android.content.Context
-import org.tensorflow.lite.examples.objectdetection.ObjectDetectorHelper.Companion.MODEL_EFFICIENTDETV0
-import org.tensorflow.lite.examples.objectdetection.ObjectDetectorHelper.Companion.MODEL_EFFICIENTDETV1
-import org.tensorflow.lite.examples.objectdetection.ObjectDetectorHelper.Companion.MODEL_EFFICIENTDETV2
-import org.tensorflow.lite.examples.objectdetection.ObjectDetectorHelper.Companion.MODEL_MOBILENETV1
+import org.tensorflow.lite.examples.objectdetection.ObjectDetectorHelper.Companion.MODEL_YOLO_TRASH_M
 import org.tensorflow.lite.support.image.TensorImage
 import org.tensorflow.lite.task.vision.detector.Detection
 import org.tensorflow.lite.task.vision.detector.ObjectDetector
@@ -21,14 +18,14 @@ class TaskVisionDetector(
 
     init {
 
-        val modelName =
-            when (currentModel) {
-                MODEL_MOBILENETV1 -> "mobilenetv1.tflite"
-                MODEL_EFFICIENTDETV0 -> "efficientdet-lite0.tflite"
-                MODEL_EFFICIENTDETV1 -> "efficientdet-lite1.tflite"
-                MODEL_EFFICIENTDETV2 -> "efficientdet-lite2.tflite"
-                else -> "mobilenetv1.tflite"
-            }
+        val modelName = "best_20_float32.tflite"
+//            when (currentModel) {
+//                MODEL_MOBILENETV1 -> "mobilenetv1.tflite"
+//                MODEL_EFFICIENTDETV0 -> "efficientdet-lite0.tflite"
+//                MODEL_EFFICIENTDETV1 -> "efficientdet-lite1.tflite"
+//                MODEL_EFFICIENTDETV2 -> "efficientdet-lite2.tflite"
+//                else -> "mobilenetv1.tflite"
+//            }
 
         objectDetector = ObjectDetector.createFromFileAndOptions(context, modelName, options)
 

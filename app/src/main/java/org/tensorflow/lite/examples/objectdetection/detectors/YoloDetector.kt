@@ -6,6 +6,9 @@ import com.ultralytics.yolo.ImageProcessing
 import com.ultralytics.yolo.models.LocalYoloModel
 import com.ultralytics.yolo.predict.detect.DetectedObject
 import com.ultralytics.yolo.predict.detect.TfliteDetector
+import org.tensorflow.lite.examples.objectdetection.ObjectDetectorHelper.Companion.MODEL_YOLO_TRASH_M
+import org.tensorflow.lite.examples.objectdetection.ObjectDetectorHelper.Companion.MODEL_YOLO_TRASH_N
+import org.tensorflow.lite.examples.objectdetection.ObjectDetectorHelper.Companion.MODEL_YOLO_TRASH_S
 import org.tensorflow.lite.support.image.TensorImage
 
 
@@ -30,8 +33,21 @@ class YoloDetector(
 
         // val modelPath = "YOLO11n-catsdogs_float32.tflite"
         // val metadataPath = "metadata-catsdogs.yaml"
-        val modelPath = "yolo11n_float32.tflite"
-        val metadataPath = "metadata.yaml"
+        val modelPath =
+            when (currentModel) {
+                MODEL_YOLO_TRASH_M -> "best_10_imgsz480_int8.tflite"
+                MODEL_YOLO_TRASH_S -> "best_10_imgsz320_int8.tflite"
+                MODEL_YOLO_TRASH_N -> "best_10_imgsz160_int8.tflite"
+                else -> "best_10_imgsz160_int8.tflite"
+            }
+
+        val metadataPath =
+            when (currentModel) {
+                MODEL_YOLO_TRASH_M -> "metadata_480.yaml"
+                MODEL_YOLO_TRASH_S -> "metadata_320.yaml"
+                MODEL_YOLO_TRASH_N -> "metadata_160.yaml"
+                else -> "metadata_160.yaml"
+        }
 
         val config = LocalYoloModel(
             "detect",
